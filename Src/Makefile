@@ -12,19 +12,33 @@ CPPFLAGS =
 # default values:
 # CPPFLAGS = -UPC -DCPP=\"gcc -E\" -DDEFAULT_LUT=\"/usr/local/modex/defaults.lut\"
 LD_LIBRARY_PATH=/usr/lib32:$LD_LIBRARY_PATH
-BINDIR = /usr/local/bin
+
+ifeq ($(VERBOSE),1)
+  QUIET:=
+else 
+  QUIET:=@
+endif
+ifeq ($(INSTALLDIR),)
+  BIN_DIR = /usr/local/bin
+  CONFIG_DIR = /usr/local/modex
+else
+  BIN_DIR = $(INSTALLDIR)/bin
+  CONFIG_DIR = $(INSTALLDIR)/config 
+endif
 
 COMMON = heap.o nmetab.o symtab.o modex.o xtract.o \
 	token.o tree.o treestk.o lexer.o gram.o dflow.o \
 	prnttree.o modex_pp.o ps_graph.o
 
-modex:	gram.h $(COMMON)
-	$(CC) -o modex $(COMMON) -lm
+modex: gram.h $(COMMON)
+	$(QUIET)$(CC) $(CFLAGS) -o modex $(COMMON) -lm
+
+all : modex
 
 install: modex
-	cp modex $(BINDIR)
-	mkdir -p /usr/local/modex
-	cp defaults.lut /usr/local/modex
+	$(QUIET)mkdir -p $(BIN_DIR) $(CONFIG_DIR)
+	$(QUIET)cp modex $(BIN_DIR)
+	$(QUIET)cp defaults.lut $(CONFIG_DIR)
 
 modex.o:	modex.c modex_cpp.h version.h utype.h globals.h lexer.h gram.h tree.h prnttree.h
 

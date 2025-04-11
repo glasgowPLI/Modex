@@ -79,7 +79,6 @@ then
 		echo ""
 		echo "	Extract Model:"
 		echo "	=============="
-		echo modex $modex_args $*
 		;;
 	esac
 
@@ -99,9 +98,10 @@ fi
 
 if modex $modex_args $1
 then	rm -f model*.trail pan.?
+        echo "DEJICE ----Success -- sh _modex_.run ${pan_run}" 
 	if [ $verbose -eq 1 ]
-	then	echo ""
-		echo "	Compile and Run:"
+then	echo ""
+	echo "	Compile and Run:"
 		echo "	================"
 		echo "sh _modex_.run $pan_run"
 	fi
@@ -109,6 +109,7 @@ then	rm -f model*.trail pan.?
 else
 	exit 1
 fi
+
 if [ -f model.trail ]
 then
 	if [ $verbose -eq 1 ]
