@@ -68,7 +68,7 @@ int	quality = 9;	/* 1..10 - 10=exhaustive, 9=HC, <9=bitstate  */
 int	maxdepth = 10000;
 int	memlim   = 15000;
 /* int	vectorsz = 1024; */ /* DJ - expand vector sz */
-int	vectorsz = 16384;
+int	vectorsz = 32768;
 int	loops, np_loops, noend, noassert;
 int	shortest, exhaustive, bfsx, bfs_par;
 int	add_printfs;
